@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * This is the model class for table "student".
+ *
+ * The followings are the available columns in table 'student':
+ * @property integer $id
+ * @property string $name
+ * @property string $parent_name
+ * @property string $student_contact
+ * @property string $parent_contact
+ * @property string $email
+ * @property string $school
+ * @property integer $year
+ * @property integer $gender
+ * @property string $notes
+ */
+class Student extends CActiveRecord
+{
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return Student the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'student';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('name', 'required'),
+			array('year, gender', 'numerical', 'integerOnly'=>true),
+			array('name, parent_name, student_contact, parent_contact, email, school', 'length', 'max'=>255),
+			array('notes', 'safe'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, name, parent_name, student_contact, parent_contact, email, school, year, gender, notes', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+                    'lessons' => array(self::HAS_MANY, 'Lesson', 'student_id'),
+                    'lessonCount' => array(self::STAT, 'Lesson', 'student_id'), 
+                    'invoices' => array(self::HAS_MANY, 'Invoice', 'student_id'),
+                    'invoiceCount' => array(self::STAT, 'Invoice', 'student_id'), 
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'name' => 'Name',
+			'parent_name' => 'Parent Name',
+			'student_contact' => 'Student Contact',
+			'parent_contact' => 'Parent Contact',
+			'email' => 'Email',
+			'school' => 'School',
+			'year' => 'Year',
+			'gender' => 'Gender',
+			'notes' => 'Notes',
+		);
+	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('parent_name',$this->parent_name,true);
+		$criteria->compare('student_contact',$this->student_contact,true);
+		$criteria->compare('parent_contact',$this->parent_contact,true);
+		$criteria->compare('email',$this->email,true);
+		$criteria->compare('school',$this->school,true);
+		$criteria->compare('year',$this->year);
+		$criteria->compare('gender',$this->gender);
+		$criteria->compare('notes',$this->notes,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+	/**
+	 * Return list of student's name
+	 */ 
+        public static function listName()
+	{
+            $models = Student::model()->findAll(array('order' => 'name'));
+            $list = CHtml::listData($models, 'id', 'name'); 
+            return $list;
+	}
+        /**
+	 * Return student's name
+	 */ 
+        public static function getName($id)
+	{
+            $models = Student::model()->findByPk($id);
+            $name = $models->name;
+            return $name;
+	}        
+}

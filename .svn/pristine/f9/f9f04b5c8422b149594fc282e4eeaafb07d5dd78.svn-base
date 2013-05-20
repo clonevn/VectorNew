@@ -1,0 +1,72 @@
+<?php
+/* @var $this StaffController */
+/* @var $model Staff */
+/* @var $form CActiveForm */
+?>
+
+<div class="form">
+
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'staff-form',
+	'enableAjaxValidation'=>false,
+)); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'paygrade_id'); ?>
+		<?php echo $form->textField($model,'paygrade_id'); ?>
+		<?php echo $form->error($model,'paygrade_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'name'); ?>
+		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'name'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'contact'); ?>
+		<?php echo $form->textField($model,'contact',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'contact'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'email'); ?>
+		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'email'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'address'); ?>
+		<?php echo $form->textField($model,'address',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'address'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'TFN'); ?>
+		<?php echo $form->textField($model,'TFN',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'TFN'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'BSB'); ?>
+		<?php echo $form->textField($model,'BSB',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'BSB'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'AN'); ?>
+		<?php echo $form->textField($model,'AN',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'AN'); ?>
+	</div>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->
