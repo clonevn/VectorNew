@@ -6,6 +6,39 @@
         Purpose of the stylesheet follows.
 */
 
+/*-- Table style  --*/
+#table table,td,th
+{
+    text-align: center;
+    border:1px solid black;
+    border-collapse: collapse;
+    width:1000px;
+}
+td.Tablename
+	{
+		background-color:green;
+		text-align: center;
+		color:white;
+	}
+td.HIT5401
+	{
+                width: 2%;
+		background-color:red;
+		text-align: center;
+		color:white;
+	}
+td.HIT6316
+	{
+		background-color:blue;
+		text-align: center;
+		color:white;
+	}
+td.HIT5091
+	{
+		background-color:#FF9900;
+		text-align: center;
+		color:white;
+	}
 root { 
     display: block;
 }

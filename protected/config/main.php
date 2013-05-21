@@ -23,6 +23,7 @@ return array(
                 'application.extensions.CAdvancedArBehavior',
                 'application.extensions.mbmenu.MbMenu',
                 'application.extensions.select2.ESelect2',
+                'application.extensions.groupgridview.GroupGridView',
 	),
         'timeZone'=>'Australia/Melbourne',
 	'modules'=>array(

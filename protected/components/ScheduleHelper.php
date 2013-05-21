@@ -287,4 +287,158 @@ function printSessionWeekend($sessions)
 }
 
 
+	/**
+	 * Draw the time-table 
+         * @return string of html code
+
+	 */
+function drawWeeklyTimeTable($maxRoom,$maxWeek,$weekSelect)
+{
+  // echo date_format(new DateTime($week->days[0]->date), "d/m");
+    $maxWeek = 12;
+    $sessionCode = "";
+    // Draw the caption include list of week with link
+    $caption ="<div id='Tabledemo'>
+            <!-- Table section -->
+            <table border='1'>
+		<!-- Caption tag -->
+                <caption> Vector Tutoring";
+    for($i=0;$i<$maxWeek;$i++)
+    {
+        
+       $str = CHtml::link($i, array('schedule/display/week/8'));
+       $caption =$caption."<span class ='caption_list'> ".$str." </span>";
+    }
+       $caption = $caption."</caption>";
+    // Draw the header for table 
+    // List the time for time-table
+    $th ="<tr> 
+	<!-- colspan tag -->
+	<th class='Tablename' colspan='3'></th>
+        <th class='Tablename'>08:30</th>
+        <th class='Tablename'>10:00</th>
+        <th class='Tablename'>11:30</th>
+        <th class='Tablename'>13:00</th>
+        <th class='Tablename'>14:30</th>
+        <th class='Tablename'>16:00</th>
+        <th class='Tablename'>17:30</th>
+        <th class='Tablename'>17:30</th>
+                                        
+        </tr>";
+    
+    // Draw the 5 week days 
+    $weekDay ="";
+    
+    for($i=0;$i<5;$i++)
+    {
+        for($j=0;$j<$maxRoom;$j++)
+        {
+            $firstRow =  firstRowWeekDay($maxRoom, "", "", $j);
+            $slot = drawWeekDaySlot($sessionCode, $j);
+            $weekDay = $weekDay.$firstRow;
+            $weekDay = $weekDay.$slot."</tr>";       
+        }
+    }
+    // Draw the 2 weekend days 
+    $weekendDay ="";
+     for($i=0;$i<2;$i++)
+    {
+        for($j=0;$j<$maxRoom;$j++)
+        {         
+            $firstRow =  firstRowWeekendDay($maxRoom, "", "", $j);
+            $slot = drawWeekendDaySlot($sessionCode, $j);
+            $weekendDay = $weekendDay.$firstRow;
+            $weekendDay = $weekendDay.$slot."</tr>"; 
+        }
+    }   
+    $lastPart ="</table></div>";
+    $html = $caption.$th.$weekDay.$weekendDay.$lastPart;
+    return $html;   
+
+}
+	/**
+	 * Draw the first row for week Day 
+         * @return string of html code
+
+	 */
+function firstRowWeekDay($maxRoom, $dateSchedule, $daySchedule, $roomNumber)
+{
+    $roomNumber++;
+    if($roomNumber == 1)
+    {
+        $firstRow ="<tr>
+            <td rowspan =".$maxRoom." class='HIT6316'>$dateSchedule</td>
+            <td rowspan =".$maxRoom." class='HIT5091'>$daySchedule</td>
+            <td class='HIT5401'>R$roomNumber</td>
+            <td rowspan =".$maxRoom." colspan='5'>&nbsp;</td>";
+    }
+    else 
+    {
+        $firstRow ="<tr>
+            <td class='HIT5401'>R$roomNumber</td>";
+    }
+    return $firstRow;
+}
+	/**
+	 * Draw the day of the week day slot
+         * @return string of html code
+
+	 */
+function drawWeekDaySlot($sessionCode, $roomNumber)
+{
+    $weekDaySlot ="";
+    $sessionCode ="";
+    $roomNumber++;
+    $roomNumber = (string)$roomNumber;
+    for ($i=0;$i<3;$i++)
+         {
+              $time = $i+6;  
+              $timeCode = strval($time);
+              $slotCode =$timeCode.'-'.$roomNumber;
+              $weekDaySlot = $weekDaySlot."<td>$slotCode</td>";
+         }
+    return $weekDaySlot;
+}
+	/**
+	 * Draw the first row for weekend Day 
+         * @return string of html code
+
+	 */
+function firstRowWeekendDay($maxRoom, $dateSchedule, $daySchedule, $roomNumber)
+{    
+    $roomNumber++;
+    if($roomNumber == 1)
+    {
+        $firstRow ="<tr>
+            <td rowspan =".$maxRoom." class='HIT6316'>$dateSchedule</td>
+            <td rowspan =".$maxRoom." class='HIT5091'>$daySchedule</td>
+            <td class='HIT5401'>R$roomNumber</td>";
+    }
+    else 
+    {
+        $firstRow ="<tr>
+            <td class='HIT5401'>R$roomNumber</td>";
+    }
+    return $firstRow;
+}
+	/**
+	 * Draw the day of the weekend day slot
+         * @return string of html code
+
+	 */
+function drawWeekendDaySlot($sessionCode, $roomNumber)
+{
+    $roomNumber++;
+    $weekDaySlot ="";
+    $sessionCode ="";
+    $roomNumber = (string)$roomNumber;
+    for ($i=0;$i<8;$i++)
+         {
+              $time = strval($i+1);
+              $slotCode =$time.'-'.$roomNumber;
+              $weekDaySlot = $weekDaySlot."<td>$slotCode</td>";
+         }
+    return $weekDaySlot;
+}
+
 ?>

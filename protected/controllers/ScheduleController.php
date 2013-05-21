@@ -5,7 +5,8 @@
 	 */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseUrl . '/css/schedule.css');
+//$cs->registerCssFile($baseUrl . '/css/schedule.css');
+$cs->registerCssFile($baseUrl . '/css/test.css');
 require_once( dirname(__FILE__) . '/../components/FormHelper.php');
 require_once( dirname(__FILE__) . '/../components/ScheduleHelper.php');
 
@@ -29,6 +30,7 @@ class ScheduleController extends Controller
 	}
 	public function actionDisplay()
 	{
+                $gogo = drawWeeklyTimeTable(11,12,"");
 		$model=new Term('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Term']))
@@ -36,6 +38,7 @@ class ScheduleController extends Controller
 
 		$this->render('display',array(
 			'model'=>$model,
+                        'schedule'=>$gogo,
 		));
 	}
 

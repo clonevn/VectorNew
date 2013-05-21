@@ -296,6 +296,11 @@ function getCurrentWeekDayNumber()
     // 2- week number
     // 3- day number
 }
+	/**
+	 * Return the list days of week
+         * @return string array
+
+	 */
 function showtDayList()
 {
     return array(
