@@ -17,6 +17,14 @@
 	<?php echo CHtml::encode($data->session_id); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('student_id')); ?>:</b>
+	<?php echo CHtml::encode($data->student_id); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('gatt_id')); ?>:</b>
+	<?php echo CHtml::encode($data->gatt_id); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('price')); ?>:</b>
 	<?php echo CHtml::encode($data->price); ?>
 	<br />
@@ -25,15 +33,19 @@
 	<?php echo CHtml::encode($data->modify); ?>
 	<br />
 
+	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
 	<?php echo CHtml::encode($data->status); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('mark')); ?>:</b>
+	<?php echo CHtml::encode($data->mark); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('group')); ?>:</b>
 	<?php echo CHtml::encode($data->group); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('paid')); ?>:</b>
 	<?php echo CHtml::encode($data->paid); ?>
 	<br />

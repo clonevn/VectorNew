@@ -27,6 +27,16 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'student_id'); ?>
+		<?php echo $form->textField($model,'student_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'gatt_id'); ?>
+		<?php echo $form->textField($model,'gatt_id'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'price'); ?>
 		<?php echo $form->textField($model,'price'); ?>
 	</div>
@@ -39,6 +49,11 @@
 	<div class="row">
 		<?php echo $form->label($model,'status'); ?>
 		<?php echo $form->textField($model,'status'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'mark'); ?>
+		<?php echo $form->textField($model,'mark'); ?>
 	</div>
 
 	<div class="row">

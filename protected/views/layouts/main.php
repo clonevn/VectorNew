@@ -69,11 +69,22 @@
                $str = explode(' ', $getDate);
                $showTerm = CHtml::encode($str[0]);
             echo "<p> Current Term number is : $termID and the start_date is : $showTerm ";
-                        
-            $total_day = getCurrentWeekDayNumber();
-            $getDay = showtDayList();
-            $showDay = $getDay[$total_day[3]];
-            echo "Today is week number :$total_day[2] and day is $showDay ";
+                $getTerm = Term::model()->findByPk($termID);
+                $date_start_this_term = new DateTime($getTerm->date_start);
+                $date_end_this_term = new DateTime($getTerm->date_end);
+                $current_date = new DateTime;
+            if($current_date < $date_start_this_term || $current_date > $date_end_this_term)
+            {
+                echo "this term cant be used now, check date start or date end time";
+            } else
+            {
+                $total_day = getCurrentWeekDayNumber();
+                $getDay = showtDayList();
+                
+                $showDay = $getDay[$total_day[3]];
+                echo "Today is week number :$total_day[2] and day is $showDay  ";    
+            }
+
 
             } 
 

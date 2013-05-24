@@ -5,7 +5,6 @@
 	 */
 require_once( dirname(__FILE__) . '/../components/FormHelper.php');
 
-
 class LessonController extends Controller
 {
 	/**
@@ -74,60 +73,78 @@ class LessonController extends Controller
 		// $this->performAjaxValidation($model);
                 // get currentTerm_id
                 $current_term_id = Yii::app()->session['current_term'];
-                
+                $price = Price::getPriceListByTerm($current_term_id);     
 		if(isset($_POST['Lesson']))
-		{
+		{              
 			$model->attributes=$_POST['Lesson'];
-
-			
-                        if(!$model->save())
+                        // term id
+                        $term_id = $model->term_id;
+                        // student id
+                        $student_id = $model->student_id;
+                        // subject id
+                        $subject_id = $model->subject_id;
+                        //group
+                        $group = $model->group;                        
+                        $major = $model->price_id;              
+                        $max_session = $model->max_session;
+                        $time = $model->total_session;
+                        $date_start = $model->date_start;
+                      //  $a3 = $model->group_id;
+                      //  $a6 = $model->number;
+                      //  $a7 = $model->total_session;
+                      //  $a8 = $model->remain_session;
+                      //  $a9 = $model->total_price;
+                      //  $a10 = $model->date_create;
+                      //  $a12 = $model->date_end;
+                      //  $a15 = $model->status;
+                      //  $a16 = $model->paid;
+                      //  $a17 = $model->invoice_id
+                        //scheduling type
+                        $type = $model->type;  
+                        if($type == 1)
                         {
-                            throw new CHttpException("Unable to save Lesson");
-                        } 
-                        else 
-                        {
-                            /*for($i=0;$i<$model->max_session;$i++)
+                                $datenew = getWeekDayNumberOfDate($date_start);
+                                // price
+                                $price_id = setPrice($max_session, $group, $major);
+                                // number 
+                                $lastLesson = Invoice::model()->findAll(array('condition'=>"student_id =  $student_id", 'order'=>"id DESC",'limit'=>1));
+                                if(!$lastLesson)
+                                   $lastLesson_id = 0;   
+                                else $lastLesson_id = $lastLesson[0]->id;
+                                $model->number = 'T'.$term_id .'-S'.$student_id.'-L'.$lastLesson_id;
+                                $number = $model->number;
+                                $model->status = Lesson::STATUS_ONGOING;
+                                $model->paid = Lesson::PAID_NOT;
+                                $paid = $model->paid;
+                                $status =$model->status;
+                                //
+                             //   throw new CHttpException (" Test : term $term_id; student_id $student_id; subject_id $subject_id; price: $price_id;  price_id/major $major; max_session $max_session; 
+                              //         total_session/timelist $time; date_start $date_start; type $type; date value: week $datenew[2]; and day: $datenew[1]] ");
+                              //  throw new CHttpException (" price_id/major $major; max_session $max_session; number lesson : $number; status : $status, paid : $paid;;
+                             //           total_session/timelist $time; date_start $date_start; type $type; date value: week $datenew[2]; and day: $datenew[1]] ");                       
+                            if($model->save())
                             {
-                                $session = new Session;
-                                $session->status = Session::STATUS_ALLOCATED;
-                                if(!$session->save())
+                                // Create session first
+                                for($i; $i< $max_session; $i++)
                                 {
-                                       throw new CHttpException("Unable to save Session");
-                                } else
-                                {
-                                     $latt = new Latt;
-                                     $latt->lesson_id = $model->id;
-                                     $latt->modify = Latt::MODIFY_DEFAULT;
-                                     $latt->status = Latt::STATUS_ALLOCATED;
-                                     $latt->group = Latt::GROUP_INDIVIDUAL;
-                                     $latt->paid = Latt::PAID_NOT;
-                                     $latt->session_id = $session->id;
-                                     if(!$latt->save())
-                                                      {
-                                                             throw new CHttpException("Unable to save Lession Attendance");
-                                                      }                       
+                                    
                                 }
+                                
+                                $this->redirect(array('view','id'=>$model->id));
+                            } else 
+                            {
+                                throw new CHttpException(" Cant save lesson");
                             }
-                             * 
-                             */
-                            $this->redirect(array('view','id'=>$model->id));
+                           
+                            
                         }
-                         
-                         
-                        /*
-                        for($i=0;$i<$model->total_session;$i++)
-                        {
-                            arr[]=
-                        }
-                         * 
-                         */
-				
 		}
                 if(isset($_GET['student_id']))
                 {
                     $student_id = $_GET['student_id'];
                     $this->render('create',array(
                             'model'=>$model,
+                            'price'=>$price,
                             'student_id'=>$student_id,
                             'current_term_id'=>$current_term_id,
                     ));
@@ -136,11 +153,11 @@ class LessonController extends Controller
                     //throw new CHttpException ("wrong sending");
                     $this->render('create',array(
                             'model'=>$model,
+                            'price'=>$price,
                             'current_term_id'=>$current_term_id,
 
                     ));
                 }
-
 	}
 
 	/**

@@ -25,6 +25,15 @@
 	<?php echo CHtml::encode($data->number); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('time')); ?>:</b>
+	<?php echo CHtml::encode($data->time); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('room')); ?>:</b>
+	<?php echo CHtml::encode($data->room); ?>
+	<br />
+
+	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
 	<?php echo CHtml::encode($data->status); ?>
 	<br />
@@ -33,7 +42,6 @@
 	<?php echo CHtml::encode($data->group); ?>
 	<br />
 
-	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('date_create')); ?>:</b>
 	<?php echo CHtml::encode($data->date_create); ?>
 	<br />

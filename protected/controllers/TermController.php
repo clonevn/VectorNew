@@ -88,7 +88,6 @@ class TermController extends Controller
                         // Note: week has been saved in after save of the Term model
 			if($model->save())
                         { 
-                            
                             $this->redirect(array('view','id'=>$model->id));
                             
                         }
@@ -166,6 +165,9 @@ class TermController extends Controller
 		if(isset($_POST['Term']))
 		{
 			Yii::app()->session['current_term'] = $_POST['Term']['id'];
+                        $setting = Setting::model()->findByPk(1);
+                        $setting->value = Yii::app()->session['current_term'];
+                        $setting->update();
                         $this->redirect(array('admin'));
 		} 
 

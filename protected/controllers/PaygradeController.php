@@ -128,10 +128,13 @@ class PaygradeController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Paygrade');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+
+                    $term_id = Yii::app()->session['current_term'];                       
+                    $model=  Paygrade::getPaygradeListByTerm($term_id);
+                    $this->render('index',array(
+                            'model'=>$model,
+                    ));
+
 	}
 
 	/**

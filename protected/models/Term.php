@@ -8,6 +8,7 @@
  * @property string $date_start
  * @property string $date_end
  * @property integer $week_number
+ * @property integer $room_number
  * @property integer $status
  */
 class Term extends CActiveRecord
@@ -44,24 +45,26 @@ class Term extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-                        array('week_number', 'required'),
-			array('week_number, status', 'numerical', 'integerOnly'=>true),
-                        array('week_number', 'compare', 'compareValue'=>9 ,'operator'=>'>'),
-                        array('week_number', 'compare', 'compareValue'=>13 ,'operator'=>'<'),
+			array('week_number, room_number', 'required'),
+			array('week_number, room_number, status', 'numerical', 'integerOnly'=>true),
+                        array('week_number', 'compare', 'compareValue'=>2 ,'operator'=>'>'),
+                        array('week_number', 'compare', 'compareValue'=>5 ,'operator'=>'<'),
+                        array('room_number', 'compare', 'compareValue'=>3 ,'operator'=>'>='),
+                        array('room_number', 'compare', 'compareValue'=>4 ,'operator'=>'<='),
                         array('date_start', 'checkMonday'),
                         array('date_start', 'type', 'datetimeFormat'=>'M/dd/yyyy'),
-                        array('date_start, date_end', 'safe'),                          
+                        array('date_end', 'safe'),  
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, date_start, date_end, week_number, status', 'safe', 'on'=>'search'),
+			array('id, date_start, date_end, week_number, room_number, status', 'safe', 'on'=>'search'),
 			// The following rule is used by searchAll().
 			// Please remove those attributes that should not be searched.
-			array('id, date_start, date_end, week_number, status', 'safe', 'on'=>'searchAll'),                    
+			array('id, date_start, date_end, week_number, room_number, status', 'safe', 'on'=>'searchAll'),  
 		);
 	}
 	/**
          * Rule check Monday
-	 * @return boolean.
+	 * 
 	 */        
         public function checkMonday($attribute)
         {         
@@ -71,7 +74,7 @@ class Term extends CActiveRecord
         }   
 	/**
          * Rule check week number < 10
-	 * @return boolean.
+	 * 
 	 */ 
         /*
         public function checkWeekNumber($attribute)
@@ -135,6 +138,32 @@ class Term extends CActiveRecord
                          if(!$week->save())
                             throw new CHttpException("Could not save week");
                     }
+                    //Save all new price for this term
+                    $price = Price::model()->findAllByAttributes(array('term_id'=>'0'));
+                    foreach($price as $item)
+                    {
+                        $save = new Price;
+                        $save->rate = $item->rate;
+                        $save->code = $item->code;
+                        $save->name = $item->name;
+                        $save->term_id = $term_id;
+                        if(!$save->save())
+                            throw new CHttpException("cant save");
+                    }
+                    //Save all new paygrade for this term
+                    $paygrade = Paygrade::model()->findAllByAttributes(array('term_id'=>'0'));
+                    foreach($paygrade as $item)
+                    {
+                        $save = new Paygrade;
+                        $save->upfront = $item->upfront;
+                        $save->code = $item->code;
+                        $save->name = $item->name;
+                        $save->bonus = $item->bonus;                      
+                        $save->term_id = $term_id;
+                        if(!$save->save())
+                            throw new CHttpException("cant save");
+                    }                    
+                
                 }
 	}
         
@@ -218,6 +247,31 @@ class Term extends CActiveRecord
             return $id;
         }
 	/**
+         * get latest Term id
+	 * @return integer.
+	 */        
+        public static function getAvailableTermLatestId()
+        {
+            $Criteria = new CDbCriteria();
+            $Criteria->condition = 'status= '.Term::STATUS_ONGOING;
+            $Criteria->limit = 1;  
+            $Criteria->order = "id DESC";           
+            $model = Term::model()->findAll($Criteria);
+            $id = $model[0]->id;
+            return $id;
+        }  
+	/**
+         * get last selected term
+	 * @return integer.
+	 */        
+        public static function getLastSelectedTerm()
+        {
+            $id ="";
+            $setting = Setting::model()->findByPk(1);
+            $id = $setting->value;
+            return $id;
+        }           
+	/**
          * get all ongoing Term
 	 * @return object model
 	 */        
@@ -284,6 +338,7 @@ class Term extends CActiveRecord
 			'date_start' => 'Date Start',
 			'date_end' => 'Date End',
 			'week_number' => 'Week Number',
+			'room_number' => 'Room Number',
 			'status' => 'Status',
 		);
 	}
@@ -303,6 +358,7 @@ class Term extends CActiveRecord
 		$criteria->compare('date_start',$this->date_start,true);
 		$criteria->compare('date_end',$this->date_end,true);
 		$criteria->compare('week_number',$this->week_number);
+		$criteria->compare('room_number',$this->room_number);
 		$criteria->compare('status',$this->status);
                 // Only list ONGOING term
                 $criteria->condition = 'status = '.Term::STATUS_ONGOING;

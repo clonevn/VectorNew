@@ -29,6 +29,8 @@ $this->menu=array(
 		'staff_id',
 		'session_id',
 		'payslip_id',
+		'latt_id',
+		'gatt_id',
 		'term_id',
 		'date_create',
 		'date_update',

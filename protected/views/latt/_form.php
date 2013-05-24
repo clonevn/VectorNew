@@ -28,6 +28,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'student_id'); ?>
+		<?php echo $form->textField($model,'student_id'); ?>
+		<?php echo $form->error($model,'student_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'gatt_id'); ?>
+		<?php echo $form->textField($model,'gatt_id'); ?>
+		<?php echo $form->error($model,'gatt_id'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'price'); ?>
 		<?php echo $form->textField($model,'price'); ?>
 		<?php echo $form->error($model,'price'); ?>
@@ -43,6 +55,12 @@
 		<?php echo $form->labelEx($model,'status'); ?>
 		<?php echo $form->textField($model,'status'); ?>
 		<?php echo $form->error($model,'status'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'mark'); ?>
+		<?php echo $form->textField($model,'mark'); ?>
+		<?php echo $form->error($model,'mark'); ?>
 	</div>
 
 	<div class="row">

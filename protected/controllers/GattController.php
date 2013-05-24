@@ -5,7 +5,6 @@
 	 */
 require_once( dirname(__FILE__) . '/../components/FormHelper.php');
 
-
 class GattController extends Controller
 {
 	/**

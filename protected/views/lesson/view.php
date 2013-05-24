@@ -39,5 +39,6 @@ $this->menu=array(
 		'group',
 		'type',
 		'status',
+		'paid',
 	),
 )); ?>

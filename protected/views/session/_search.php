@@ -37,6 +37,16 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'time'); ?>
+		<?php echo $form->textField($model,'time'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'room'); ?>
+		<?php echo $form->textField($model,'room'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'status'); ?>
 		<?php echo $form->textField($model,'status'); ?>
 	</div>

@@ -53,14 +53,16 @@ class SiteController extends Controller
                             // Debug unset session
                               
                             unset(Yii::app()->session['current_term']);
-
+                            Term::autoChangeTermToDone();
                             if (!isset(Yii::app()->session['current_term']))
                                {
-                                   Yii::app()->session['current_term'] = Term::getTermLatestId();
+                                   $findTerm = Term::getLastSelectedTerm();
+                                   if($findTerm)
+                                       Yii::app()->session['current_term'] = $findTerm;
                                }
                                // auto change status of term that on date to be DONE
                                // unable to load it anymore
-                               Term::autoChangeTermToDone();
+                               
 			   $this->redirect(array('/Term/admin'));
                                 
                         }

@@ -54,6 +54,8 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		/*
 		'session_id',
 		'payslip_id',
+		'latt_id',
+		'gatt_id',
 		'term_id',
 		'date_create',
 		'date_update',

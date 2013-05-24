@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Select Term', 'url'=>array('manage')),
+	array('label'=>'Choose Term', 'url'=>array('manage')),
 	array('label'=>'Create Term', 'url'=>array('create')),
 );
 
@@ -49,6 +49,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'date_start',
 		'date_end',
 		'week_number',
+		'room_number',
 		'status',
 		array(
 			'class'=>'CButtonColumn',

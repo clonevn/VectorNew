@@ -48,10 +48,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'id',
 		'lesson_id',
 		'session_id',
+		'student_id',
+		'gatt_id',
 		'price',
+		/*
 		'modify',
 		'status',
-		/*
+		'mark',
 		'group',
 		'paid',
 		'type',

@@ -25,10 +25,10 @@ class Group extends CActiveRecord
 	 */      
     	const STATUS_ONGOING=1;
 	const STATUS_DONE=2;
-        const STATUS_PAID=3;
-	const STATUS_CANCELLED=4;
-        const TYPE_PACKAGE=1;
-        const TYPE_USUAL=2;    
+        const STATUS_CANCELLED=3;
+	const STATUS_NOTALLOCATED=4;
+        const TYPE_AUTOMATIC=1;
+        const TYPE_MANUAL=2; 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

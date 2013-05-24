@@ -65,6 +65,8 @@ class Student extends CActiveRecord
                     'lessonCount' => array(self::STAT, 'Lesson', 'student_id'), 
                     'invoices' => array(self::HAS_MANY, 'Invoice', 'student_id'),
                     'invoiceCount' => array(self::STAT, 'Invoice', 'student_id'), 
+                    'latts' => array(self::HAS_MANY, 'Latt', 'student_id'),
+                    'lattCount' => array(self::STAT, 'Latt', 'student_id'),                     
 		);
 	}
 
@@ -115,6 +117,7 @@ class Student extends CActiveRecord
 	}
 	/**
 	 * Return list of student's name
+         * @return student id
 	 */ 
         public static function listName()
 	{

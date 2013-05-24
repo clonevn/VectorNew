@@ -58,6 +58,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'latt_id'); ?>
+		<?php echo $form->textField($model,'latt_id'); ?>
+		<?php echo $form->error($model,'latt_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'gatt_id'); ?>
+		<?php echo $form->textField($model,'gatt_id'); ?>
+		<?php echo $form->error($model,'gatt_id'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'term_id'); ?>
 		<?php echo $form->textField($model,'term_id'); ?>
 		<?php echo $form->error($model,'term_id'); ?>

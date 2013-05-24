@@ -20,7 +20,7 @@
                     'attribute'=>'id',
                     'data'=>Term::getTermDateAndNumberList(),
                     'options'=>array(
-                              'width'=>'30%',
+                              'width'=>'50%',
                               'placeholder'=>'Search for term',
                               'allowClear'=>true,
                     ),              

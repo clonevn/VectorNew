@@ -9,6 +9,8 @@
  * @property integer $week_id
  * @property integer $day_id
  * @property string $number
+ * @property integer $time
+ * @property integer $room
  * @property integer $status
  * @property integer $group
  * @property string $date_create
@@ -54,12 +56,12 @@ class Session extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('term_id, week_id, day_id, status, group', 'numerical', 'integerOnly'=>true),
+			array('term_id, week_id, day_id, time, room, status, group', 'numerical', 'integerOnly'=>true),
 			array('number', 'length', 'max'=>255),
 			array('date_create, date_update, date_session', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, term_id, week_id, day_id, number, status, group, date_create, date_update, date_session', 'safe', 'on'=>'search'),
+			array('id, term_id, week_id, day_id, number, time, room, status, group, date_create, date_update, date_session', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -94,6 +96,8 @@ class Session extends CActiveRecord
 			'week_id' => 'Week',
 			'day_id' => 'Day',
 			'number' => 'Number',
+			'time' => 'Time',
+			'room' => 'Room',
 			'status' => 'Status',
 			'group' => 'Group',
 			'date_create' => 'Date Create',
@@ -118,6 +122,8 @@ class Session extends CActiveRecord
 		$criteria->compare('week_id',$this->week_id);
 		$criteria->compare('day_id',$this->day_id);
 		$criteria->compare('number',$this->number,true);
+		$criteria->compare('time',$this->time);
+		$criteria->compare('room',$this->room);
 		$criteria->compare('status',$this->status);
 		$criteria->compare('group',$this->group);
 		$criteria->compare('date_create',$this->date_create,true);

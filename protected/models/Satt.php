@@ -12,6 +12,8 @@
  * @property integer $staff_id
  * @property integer $session_id
  * @property integer $payslip_id
+ * @property integer $latt_id
+ * @property integer $gatt_id
  * @property integer $term_id
  * @property string $date_create
  * @property string $date_update
@@ -28,7 +30,7 @@ class Satt extends CActiveRecord
         const STATUS_NOTATTENDED=2;
 	const STATUS_ATTENDED=3;
         const STATUS_CANCELLED=4;
-        const STATUS_SUSPENDED=5;
+        const STATUS_DONE=5;
         const PAID_NOT=1;
         const PAID_DONE=2;    
 	/**
@@ -57,11 +59,11 @@ class Satt extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, modify, paid, pay, staff_id, session_id, payslip_id, term_id', 'numerical', 'integerOnly'=>true),
+			array('status, modify, paid, pay, staff_id, session_id, payslip_id, latt_id, gatt_id, term_id', 'numerical', 'integerOnly'=>true),
 			array('date_create, date_update, notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, status, modify, paid, pay, staff_id, session_id, payslip_id, term_id, date_create, date_update, notes', 'safe', 'on'=>'search'),
+			array('id, status, modify, paid, pay, staff_id, session_id, payslip_id, latt_id, gatt_id, term_id, date_create, date_update, notes', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,6 +79,8 @@ class Satt extends CActiveRecord
                        'session' => array(self::BELONGS_TO, 'Session', 'session_id'),
                        'term' => array(self::BELONGS_TO, 'term', 'term_id'),
                        'payslip' => array(self::BELONGS_TO, 'Payslip', 'payslip_id'),
+                       'latt' => array(self::BELONGS_TO, 'Latt', 'latt_id'),
+                       'Gatt' => array(self::BELONGS_TO, 'Gatt', 'gatt_id'),                   
 		);
 	}
 
@@ -94,6 +98,8 @@ class Satt extends CActiveRecord
 			'staff_id' => 'Staff',
 			'session_id' => 'Session',
 			'payslip_id' => 'Payslip',
+			'latt_id' => 'Latt',
+			'gatt_id' => 'Gatt',
 			'term_id' => 'Term',
 			'date_create' => 'Date Create',
 			'date_update' => 'Date Update',
@@ -120,6 +126,8 @@ class Satt extends CActiveRecord
 		$criteria->compare('staff_id',$this->staff_id);
 		$criteria->compare('session_id',$this->session_id);
 		$criteria->compare('payslip_id',$this->payslip_id);
+		$criteria->compare('latt_id',$this->latt_id);
+		$criteria->compare('gatt_id',$this->gatt_id);
 		$criteria->compare('term_id',$this->term_id);
 		$criteria->compare('date_create',$this->date_create,true);
 		$criteria->compare('date_update',$this->date_update,true);

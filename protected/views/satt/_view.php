@@ -38,6 +38,14 @@
 	<?php echo CHtml::encode($data->payslip_id); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('latt_id')); ?>:</b>
+	<?php echo CHtml::encode($data->latt_id); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('gatt_id')); ?>:</b>
+	<?php echo CHtml::encode($data->gatt_id); ?>
+	<br />
+
 	<b><?php echo CHtml::encode($data->getAttributeLabel('term_id')); ?>:</b>
 	<?php echo CHtml::encode($data->term_id); ?>
 	<br />

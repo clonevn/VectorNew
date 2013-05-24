@@ -45,10 +45,23 @@ class Price extends CActiveRecord
 			array('id, term_id, rate, code, name', 'safe', 'on'=>'search'),
 		);
 	}
-
+	/**
+         * get Price list by term
+	 * 
+	 */  
+        
+        public static function getPriceListByTerm($term_id)
+        {
+            
+            $Criteria = new CDbCriteria();
+            $Criteria->condition = 'term_id = '.$term_id;
+            $price = Price::model()->findAll($Criteria);
+            return $price;
+        }       
 	/**
 	 * @return array relational rules.
 	 */
+ 
 	public function relations()
 	{
 		// NOTE: you may need to adjust the relation name and the related
@@ -88,9 +101,21 @@ class Price extends CActiveRecord
 		$criteria->compare('rate',$this->rate);
 		$criteria->compare('code',$this->code);
 		$criteria->compare('name',$this->name,true);
-
+                // List by current term:
+                $term_id = Yii::app()->session['current_term'];
+                $criteria->condition = 'term_id = '.$term_id;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+        /**
+	 * Return list of price name
+         * @return price id
+	 */ 
+        public static function listPrice()
+	{
+            $models = Price::model()->findAll(array('order' => 'name'));
+            $list = CHtml::listData($models, 'id', 'name'); 
+            return $list;
 	}
 }

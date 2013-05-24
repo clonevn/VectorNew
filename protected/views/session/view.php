@@ -26,6 +26,8 @@ $this->menu=array(
 		'week_id',
 		'day_id',
 		'number',
+		'time',
+		'room',
 		'status',
 		'group',
 		'date_create',

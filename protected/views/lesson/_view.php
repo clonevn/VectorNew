@@ -78,6 +78,10 @@
 	<?php echo CHtml::encode($data->status); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('paid')); ?>:</b>
+	<?php echo CHtml::encode($data->paid); ?>
+	<br />
+
 	*/ ?>
 
 </div>

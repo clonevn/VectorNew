@@ -52,6 +52,16 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'latt_id'); ?>
+		<?php echo $form->textField($model,'latt_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'gatt_id'); ?>
+		<?php echo $form->textField($model,'gatt_id'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->label($model,'term_id'); ?>
 		<?php echo $form->textField($model,'term_id'); ?>
 	</div>

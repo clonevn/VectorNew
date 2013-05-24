@@ -22,6 +22,7 @@
  * @property integer $group
  * @property integer $type
  * @property integer $status
+ * @property integer $paid
  */
 class Lesson extends CActiveRecord
 {
@@ -30,14 +31,14 @@ class Lesson extends CActiveRecord
 	 */      
     	const STATUS_ONGOING=1;
 	const STATUS_DONE=2;
-        const STATUS_PAID=3;
-	const STATUS_CANCELLED=4;
-        const STATUS_NOTALLOCATED=5;
+	const STATUS_CANCELLED=3;
+        const STATUS_NOTALLOCATED=4;
     	const GROUP_GROUP=2;
         const GROUP_INDIVIDUAL=1;
-        const TYPE_PACKAGE=1;
-        const TYPE_USUAL=2;
-
+        const TYPE_AUTOMATIC=1;
+        const TYPE_MANUAL=2;
+        const PAID_NOT=1;
+        const PAID_DONE=2;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -65,18 +66,49 @@ class Lesson extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('term_id, student_id, group_id, subject_id, price_id, invoice_id, max_session, total_session, remain_session, total_price, group, type, status', 'numerical', 'integerOnly'=>true),
+                        array('max_session, student_id, subject_id, price_id, date_start, type, total_session', 'required'),
+			array('term_id, student_id, group_id, subject_id, price_id, invoice_id, max_session, total_session, remain_session, total_price, group, type, status, paid', 'numerical', 'integerOnly'=>true),
 			array('number', 'length', 'max'=>255),
-			array('date_create, date_start, date_end', 'safe'),
+                        array('max_session', 'compare', 'compareValue'=>0 ,'operator'=>'>'),                   
+                        array('date_start', 'type', 'datetimeFormat'=>'M/dd/yyyy'),
+                        array('date_start', 'checkdateStart'),
+                      //  array('date_start', 'checkdateSlot'),
+                      //  array('total_price', 'checkTimeSlot'),
+			array('date_create, date_end, term_id, student_id, group_id, invoice_id, total_session, remain_session, total_price, status, paid, group, type', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, term_id, student_id, group_id, subject_id, price_id, invoice_id, number, max_session, total_session, remain_session, total_price, date_create, date_start, date_end, group, type, status', 'safe', 'on'=>'search'),
+			array('id, term_id, student_id, group_id, subject_id, price_id, invoice_id, number, max_session, total_session, remain_session, total_price, date_create, date_start, date_end, group, type, status, paid', 'safe', 'on'=>'search'),
 		);
 	}
-
-	/**
-	 * @return array relational rules.
-	 */
+        /**
+         * Rule check Date Start
+	 * 
+	 */      
+        public function checkDateStart($attribute)
+        {         
+            $term_id = Yii::app()->session['current_term'];
+            $current = new DateTime();
+            $term_date_start = Term::getTermDateStart($term_id);
+            $date_start = new DateTime($term_date_start);
+            $term_date_end = Term::getTermDateEnd($term_id);
+            $date_end = new DateTime($term_date_end);
+            $day = new DateTime($this->$attribute);
+            if($day < $current)
+              $this->addError($attribute, 'The start time should be larger than today!');
+            if($day < $date_start)
+             $this->addError($attribute, 'The start time should be after start date of this term!');
+            if($day > $date_end)
+             $this->addError($attribute, 'The start time should be before end date of this term!');            
+        }  
+        /**
+         * Rule check date + max session
+	 * 
+	 */      
+        public function checkMaxSession($attribute)
+        {         
+            $datenew = getWeekDayNumberOfDate($this->date_start);
+            $this->addError($attribute, $datenew[2]);
+        }        
 	/**
 	 * This is invoked after the record is saved.
 	 */
@@ -101,7 +133,10 @@ class Lesson extends CActiveRecord
                 }
 	} 
          * 
-         */       
+         */  
+	/**
+	 * @return array relational rules.
+	 */        
 	public function relations()
 	{
 		// NOTE: you may need to adjust the relation name and the related
@@ -133,11 +168,14 @@ class Lesson extends CActiveRecord
 			'student_id' => 'Student',
 			'group_id' => 'Group',
 			'subject_id' => 'Subject',
+                       // Use price for specialist validation
 			'price_id' => 'Price',
 			'invoice_id' => 'Invoice',
 			'number' => 'Number',
 			'max_session' => 'Max Session',
+                        // Use total_session for Time List validation
 			'total_session' => 'Total Session',
+                        // Use remain_session for select Schedule Type
 			'remain_session' => 'Remain Session',
 			'total_price' => 'Total Price',
 			'date_create' => 'Date Create',
@@ -146,6 +184,7 @@ class Lesson extends CActiveRecord
 			'group' => 'Group',
 			'type' => 'Type',
 			'status' => 'Status',
+			'paid' => 'Paid',
 		);
 	}
 
@@ -178,6 +217,7 @@ class Lesson extends CActiveRecord
 		$criteria->compare('group',$this->group);
 		$criteria->compare('type',$this->type);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('paid',$this->paid);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

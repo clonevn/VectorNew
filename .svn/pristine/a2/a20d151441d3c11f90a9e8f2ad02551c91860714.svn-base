@@ -1,0 +1,90 @@
+<?php
+/* @var $this LattController */
+/* @var $model Latt */
+/* @var $form CActiveForm */
+?>
+
+<div class="wide form">
+
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'action'=>Yii::app()->createUrl($this->route),
+	'method'=>'get',
+)); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'id'); ?>
+		<?php echo $form->textField($model,'id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'lesson_id'); ?>
+		<?php echo $form->textField($model,'lesson_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'session_id'); ?>
+		<?php echo $form->textField($model,'session_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'gatt_id'); ?>
+		<?php echo $form->textField($model,'gatt_id'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'price'); ?>
+		<?php echo $form->textField($model,'price'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'modify'); ?>
+		<?php echo $form->textField($model,'modify'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'status'); ?>
+		<?php echo $form->textField($model,'status'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'mark'); ?>
+		<?php echo $form->textField($model,'mark'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'group'); ?>
+		<?php echo $form->textField($model,'group'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'paid'); ?>
+		<?php echo $form->textField($model,'paid'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'type'); ?>
+		<?php echo $form->textField($model,'type'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'date_create'); ?>
+		<?php echo $form->textField($model,'date_create'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'date_update'); ?>
+		<?php echo $form->textField($model,'date_update'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'notes'); ?>
+		<?php echo $form->textArea($model,'notes',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('Search'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- search-form -->

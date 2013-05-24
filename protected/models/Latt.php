@@ -7,9 +7,12 @@
  * @property integer $id
  * @property integer $lesson_id
  * @property integer $session_id
+ * @property integer $student_id
+ * @property integer $gatt_id
  * @property integer $price
  * @property integer $modify
  * @property integer $status
+ * @property integer $mark
  * @property integer $group
  * @property integer $paid
  * @property integer $type
@@ -20,19 +23,19 @@
 class Latt extends CActiveRecord
 {
         /**
-	 * constant variable for modify, status, group, type and paid
+	 * constant variable for modify, status, mark, group, type and paid
 	 */      
     	const MODIFY_DEFAULT=1;
 	const MODIFY_DONE=2;
         const STATUS_ALLOCATED=1;
-        const STATUS_NOTATTENDED=2;
-	const STATUS_ATTENDED=3;
-        const STATUS_CANCELLED=4;
-        const STATUS_SUSPENDED=5;
+        const STATUS_CANCELLED=2;
+        const STATUS_DONE=3;
+        const MARK_NOTATTENDED=1;
+	const MARK_ATTENDED=1;       
     	const GROUP_GROUP=2;
         const GROUP_INDIVIDUAL=1;
-        const TYPE_PACKAGE=1;
-        const TYPE_USUAL=2;
+        const TYPE_AUTOMATIC=1;
+        const TYPE_MANUAL=2;
         const PAID_NOT=1;
         const PAID_DONE=2;
 	/**
@@ -61,11 +64,11 @@ class Latt extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('lesson_id, session_id, price, modify, status, group, paid, type', 'numerical', 'integerOnly'=>true),
+			array('lesson_id, session_id, student_id, gatt_id, price, modify, status, mark, group, paid, type', 'numerical', 'integerOnly'=>true),
 			array('date_create, date_update, notes', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, lesson_id, session_id, price, modify, status, group, paid, type, date_create, date_update, notes', 'safe', 'on'=>'search'),
+			array('id, lesson_id, session_id, student_id, gatt_id, price, modify, status, mark, group, paid, type, date_create, date_update, notes', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,6 +82,10 @@ class Latt extends CActiveRecord
 		return array(
                        'lesson' => array(self::BELONGS_TO, 'Lesson', 'lesson_id'),
                        'session' => array(self::BELONGS_TO, 'Session', 'session_id'),
+                       'gatt' => array(self::BELONGS_TO, 'Gatt', 'gatt_id'),
+                       'student' => array(self::BELONGS_TO, 'Student', 'student_id'),
+                       'satts' => array(self::HAS_MANY, 'Satt', 'latt_id'),
+
 		);
 	}
 
@@ -91,9 +98,12 @@ class Latt extends CActiveRecord
 			'id' => 'ID',
 			'lesson_id' => 'Lesson',
 			'session_id' => 'Session',
+			'student_id' => 'Student',
+			'gatt_id' => 'Gatt',
 			'price' => 'Price',
 			'modify' => 'Modify',
 			'status' => 'Status',
+			'mark' => 'Mark',
 			'group' => 'Group',
 			'paid' => 'Paid',
 			'type' => 'Type',
@@ -117,9 +127,12 @@ class Latt extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('lesson_id',$this->lesson_id);
 		$criteria->compare('session_id',$this->session_id);
+		$criteria->compare('student_id',$this->student_id);
+		$criteria->compare('gatt_id',$this->gatt_id);
 		$criteria->compare('price',$this->price);
 		$criteria->compare('modify',$this->modify);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('mark',$this->mark);
 		$criteria->compare('group',$this->group);
 		$criteria->compare('paid',$this->paid);
 		$criteria->compare('type',$this->type);

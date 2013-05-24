@@ -40,6 +40,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'time'); ?>
+		<?php echo $form->textField($model,'time'); ?>
+		<?php echo $form->error($model,'time'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'room'); ?>
+		<?php echo $form->textField($model,'room'); ?>
+		<?php echo $form->error($model,'room'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
 		<?php echo $form->textField($model,'status'); ?>
 		<?php echo $form->error($model,'status'); ?>

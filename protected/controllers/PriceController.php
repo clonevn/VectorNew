@@ -128,10 +128,12 @@ class PriceController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Price');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+                    $term_id = Yii::app()->session['current_term'];                       
+                    $model=Price::getPriceListByTerm($term_id);
+                    $this->render('index',array(
+                            'model'=>$model,
+                    ));
+
 	}
 
 	/**

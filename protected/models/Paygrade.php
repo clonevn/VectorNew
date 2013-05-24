@@ -46,7 +46,19 @@ class Paygrade extends CActiveRecord
 			array('id, term_id, upfront, bonus, name, code', 'safe', 'on'=>'search'),
 		);
 	}
-
+	/**
+         * get Price list by term
+	 * 
+	 */  
+        
+        public static function getPaygradeListByTerm($term_id)
+        {
+            
+            $Criteria = new CDbCriteria();
+            $Criteria->condition = 'term_id = '.$term_id;
+            $pay = Paygrade::model()->findAll($Criteria);
+            return $pay;
+        }       
 	/**
 	 * @return array relational rules.
 	 */
@@ -91,7 +103,9 @@ class Paygrade extends CActiveRecord
 		$criteria->compare('bonus',$this->bonus);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('code',$this->code);
-
+                // List by current term:
+                $term_id = Yii::app()->session['current_term'];
+                $criteria->condition = 'term_id = '.$term_id;
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

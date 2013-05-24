@@ -1,10 +1,4 @@
 <?php
-	/**
-	 * Import component, css, javascript
-         * FormHelper.php
-	 */
-require_once( dirname(__FILE__) . '/../components/FormHelper.php');
-
 
 class SattController extends Controller
 {

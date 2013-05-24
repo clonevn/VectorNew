@@ -440,5 +440,9 @@ function drawWeekendDaySlot($sessionCode, $roomNumber)
          }
     return $weekDaySlot;
 }
-
+function checkAvailableSlot($weekNumber, $dayNumber, $timeList)
+{
+    $flag = false;
+    
+}
 ?>

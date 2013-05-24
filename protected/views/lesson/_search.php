@@ -101,6 +101,11 @@
 		<?php echo $form->textField($model,'status'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->label($model,'paid'); ?>
+		<?php echo $form->textField($model,'paid'); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>

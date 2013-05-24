@@ -9,6 +9,7 @@
  * @property integer $session_id
  * @property integer $type
  * @property integer $status
+ * @property integer $mark
  * @property string $date_create
  * @property string $date_update
  * @property integer $notes
@@ -16,15 +17,15 @@
 class Gatt extends CActiveRecord
 {
         /**
-	 * constant variable for status, type
+	 * constant variable for status, mark, type
 	 */      
         const STATUS_ALLOCATED=1;
-        const STATUS_NOTATTENDED=2;
-	const STATUS_ATTENDED=3;
-        const STATUS_CANCELLED=4;
-        const STATUS_SUSPENDED=5;
-        const TYPE_PACKAGE=1;
-        const TYPE_USUAL=2;   
+        const STATUS_CANCELLED=2;
+        const STATUS_DONE=3;
+        const MARK_NOTATTENDED=1;
+	const MARK_ATTENDED=1;  
+        const TYPE_AUTOMATIC=1;
+        const TYPE_MANUAL=2;  
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -51,11 +52,11 @@ class Gatt extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('group_id, session_id, type, status, notes', 'numerical', 'integerOnly'=>true),
+			array('group_id, session_id, type, status, mark, notes', 'numerical', 'integerOnly'=>true),
 			array('date_create, date_update', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, group_id, session_id, type, status, date_create, date_update, notes', 'safe', 'on'=>'search'),
+			array('id, group_id, session_id, type, status, mark, date_create, date_update, notes', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,7 +69,10 @@ class Gatt extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                        'group' => array(self::BELONGS_TO, 'Group', 'group_id'),
-                       'session' => array(self::BELONGS_TO, 'Session', 'session_id'),                    
+                       'session' => array(self::BELONGS_TO, 'Session', 'session_id'),  
+                       'latts' => array(self::HAS_MANY, 'Latt', 'gatt_id'),
+                       'lattCount' => array(self::STAT, 'Latt', 'gatt_id'),  
+                       'satts' => array(self::HAS_MANY, 'Satt', 'satt_id'),                  
 		);
 	}
 
@@ -83,6 +87,7 @@ class Gatt extends CActiveRecord
 			'session_id' => 'Session',
 			'type' => 'Type',
 			'status' => 'Status',
+			'mark' => 'Mark',
 			'date_create' => 'Date Create',
 			'date_update' => 'Date Update',
 			'notes' => 'Notes',
@@ -105,6 +110,7 @@ class Gatt extends CActiveRecord
 		$criteria->compare('session_id',$this->session_id);
 		$criteria->compare('type',$this->type);
 		$criteria->compare('status',$this->status);
+		$criteria->compare('mark',$this->mark);
 		$criteria->compare('date_create',$this->date_create,true);
 		$criteria->compare('date_update',$this->date_update,true);
 		$criteria->compare('notes',$this->notes);
